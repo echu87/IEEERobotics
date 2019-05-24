@@ -1,64 +1,60 @@
-#include <Me4Button.h>
-#include <Me7SegmentDisplay.h>
-#include <MeAuriga.h>
-#include <MeBaseBoard.h>
-#include <MeBluetooth.h>
-#include <MeBuzzer.h>
-#include <MeColorSensor.h>
-#include <MeCompass.h>
-#include <MeConfig.h>
-#include <MeDCMotor.h>
-#include <MeEEPROM.h>
-#include <MeEncoderMotor.h>
-#include <MeEncoderNew.h>
-#include <MeEncoderOnBoard.h>
-#include <MeFlameSensor.h>
-#include <MeGasSensor.h>
-#include <MeGyro.h>
-#include <MeHostParser.h>
-#include <MeHumitureSensor.h>
-#include <MeInfraredReceiver.h>
-#include <MeIR.h>
-#include <MeJoystick.h>
-#include <MeLEDMatrix.h>
-#include <MeLEDMatrixData.h>
-#include <MeLightSensor.h>
-#include <MeLimitSwitch.h>
-#include <MeLineFollower.h>
-#include <MeMbotDCMotor.h>
-#include <MeMCore.h>
-#include <MeMegaPi.h>
-#include <MeMegaPiDCMotor.h>
-#include <MeMegaPiPro.h>
-#include <MeMegaPiPro4DcMotor.h>
-#include <MeMegaPiProESCMotor.h>
-#include <MeOnBoardTemp.h>
-#include <MeOneWire.h>
-#include <MeOrion.h>
-#include <MePIRMotionSensor.h>
-#include <MePm25Sensor.h>
-#include <MePort.h>
-#include <MePotentiometer.h>
-#include <MePressureSensor.h>
-#include <MePS2.h>
-#include <MeRGBLed.h>
-#include <MeSerial.h>
-#include <MeShield.h>
-#include <MeShutter.h>
-#include <MeSmartServo.h>
-#include <MeSoundSensor.h>
-#include <MeStepper.h>
-#include <MeStepperOnBoard.h>
-#include <MeSuperVariable.h>
-#include <MeTemperature.h>
-#include <MeTouchSensor.h>
-#include <MeUltrasonicSensor.h>
-#include <MeUSBHost.h>
-#include <MeVoice.h>
-#include <MeWifi.h>
+#include "MeOrion.h"
 
-int ojas = 4;
+int leftSensor;
+int rightSensor;
 
+MeDCMotor motor1(PORT_1);
+MeDCMotor motor3(M1);
 
+MeDCMotor motor2(PORT_2);
+MeDCMotor motor4(M2);
 
+uint8_t motorSpeed = 100;
 
+MeUltrasonicSensor ultraSensor(PORT_7);
+
+void setup() {
+  
+  Serial.begin(9600);
+
+  pinMode(12, INPUT);
+  pinMode(9, INPUT);
+  
+}
+
+void loop() {
+
+  leftSensor = digitalRead(12);
+  rightSensor = digitalRead(9);
+  
+  Serial.print(leftSensor);
+  Serial.println(rightSensor);
+
+  Serial.print(ultraSensor.distanceCm() );
+  Serial.println(" cm");
+  
+  drive();
+
+  if (leftSensor == 0 && rightSensor == 0) {
+    brake();
+  }
+  
+}
+
+void drive() {
+
+  motor1.run(motorSpeed);
+  motor2.run(-motorSpeed);
+  motor3.run(motorSpeed);
+  motor4.run(-motorSpeed);
+  
+}
+
+void brake() {
+  
+  motor1.stop();
+  motor2.stop();
+  motor3.stop();
+  motor4.stop();
+  
+}
