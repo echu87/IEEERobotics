@@ -3,6 +3,12 @@
 int leftSensor;
 int rightSensor;
 
+int[][] board = new int[4][7];
+
+int curr_x = 0;
+int curr_y = 0;
+String curr_d = "N";
+
 MeDCMotor motor1(PORT_1);
 MeDCMotor motor3(M1);
 
@@ -37,6 +43,7 @@ void loop() {
 
   if (leftSensor == 0 && rightSensor == 0) {
     brake();
+    checkNode();
   }
   
 }
@@ -57,4 +64,25 @@ void brake() {
   motor3.stop();
   motor4.stop();
   
+}
+
+
+void checkNode() {
+
+  switch(curr_d) {
+
+    case "N": curr_y++; break;
+    case "E": curr_x++; break;
+    case "S": curr_y--; break;
+    case "W": curr_x--; break;
+  }
+
+  
+  if(ultraSensor.distanceCm() < 36) {
+    //call BFS and drive accordingly
+
+     
+  }
+
+
 }
