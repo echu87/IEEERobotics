@@ -3,11 +3,19 @@
 int leftSensor;
 int rightSensor;
 
-int[][] board = new int[4][7];
+int board [7][4] {
+  {0,0,0,0},
+  {0,0,0,0},
+  {0,0,0,0},
+  {0,0,0,0},
+  {0,0,0,0},
+  {0,0,0,0},
+  {0,0,0,0}
+};
 
 int curr_x = 0;
 int curr_y = 0;
-String curr_d = "N";
+char curr_d = 'N';
 
 MeDCMotor motor1(PORT_1);
 MeDCMotor motor3(M1);
@@ -70,11 +78,13 @@ void brake() {
 void checkNode() {
 
   switch(curr_d) {
-
-    case "N": curr_y++; break;
-    case "E": curr_x++; break;
-    case "S": curr_y--; break;
-    case "W": curr_x--; break;
+    
+    case 'N': curr_y++; break;
+    case 'E': curr_x++; break;
+    case 'S': curr_y--; break;
+    case 'W': curr_x--; break;
+    default: break;
+    
   }
 
   
